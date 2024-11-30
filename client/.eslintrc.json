@@ -1,0 +1,15 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript","prettier","standard","plugin:tailwindcss/recommended"],
+  "rules": {
+    "quotes": ["off"],
+    "comma-dangle": ["off"],
+    "no-extra-semi":"off",
+    "comma-spacing":"off",
+    "semi":"off",
+    "eol-last":"off",
+    "no-unused-vars":"off",
+    "indent":"off",
+    "spaced-comment":"off",
+    "eslint-plugin-vue/static-class-names-order":"off"
+  }
+}
