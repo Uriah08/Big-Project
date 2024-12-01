@@ -11,7 +11,7 @@ body {
 
 @layer base {
   :root {
-    --background: #f5f5f5;
+    --background: #dfdff0;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -70,6 +70,6 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-light dark:bg-dark text-foreground;
   }
 }
