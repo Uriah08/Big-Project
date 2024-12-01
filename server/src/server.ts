@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 // ROUTES IMPORTS //
+import authRoutes from './routes/auth.route'
 
 // CONFIGURATIONS //
 dotenv.config()
@@ -23,9 +24,9 @@ app.use(cors())
 app.get('/', (req, res) => {
     res.send('Hello, World!')
 })
+app.use('/auth', authRoutes);
 
 // START SERVER //
-
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`Server running on port ${port}...`)

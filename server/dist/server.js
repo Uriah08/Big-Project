@@ -10,6 +10,7 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
 // ROUTES IMPORTS //
+const auth_route_1 = __importDefault(require("./routes/auth.route"));
 // CONFIGURATIONS //
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -24,6 +25,7 @@ app.use((0, cors_1.default)());
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
+app.use('/auth', auth_route_1.default);
 // START SERVER //
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
