@@ -6,6 +6,7 @@ import { Poppins } from 'next/font/google'
 import React from "react";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import StoreProvider from "@/provider/redux";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,13 +28,15 @@ export default function RootLayout ({
       <body
         className={`${poppins.className} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="class"
-          enableSystem disableTransitionOnChange
-          >
-          {children}
-        </ThemeProvider>
+        <StoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="class"
+            enableSystem disableTransitionOnChange
+            >
+            {children}
+          </ThemeProvider>
+        </StoreProvider>
       </body>
     </html>
   );

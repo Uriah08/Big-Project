@@ -7,6 +7,7 @@ import morgan from 'morgan'
 
 // ROUTES IMPORTS //
 import authRoutes from './routes/auth.route'
+import registerRoutes from './routes/register.routes'
 
 // CONFIGURATIONS //
 dotenv.config()
@@ -24,7 +25,10 @@ app.use(cors())
 app.get('/', (req, res) => {
     res.send('Hello, World!')
 })
+
+// API ROUTES //
 app.use('/auth', authRoutes);
+app.use('/auth', registerRoutes);
 
 // START SERVER //
 const port = process.env.PORT || 3000

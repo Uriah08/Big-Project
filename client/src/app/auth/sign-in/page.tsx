@@ -19,31 +19,39 @@ import { Input } from "@/components/ui/input"
 import { loginSchema } from '@/schemas/schema'
 import Link from 'next/link'
 
-const page = () => {
+import { useLoginUserMutation } from '@/store/api'
+
+const LoginPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loginUser, { isLoading }] = useLoginUserMutation()
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values)
+  async function onSubmit (values: z.infer<typeof loginSchema>) {
+    try {
+      await loginUser(values)
+    } catch (error) {
+      console.error(error)
+    }
   }
-  
   return (
     <>
       <Form {...form}>
       <form className='w-full space-y-3' onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name='username'
+          name='email'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input className="bg-dark" type="text" placeholder='Zentry' {...field}/>
+                <Input className="bg-dark" type="email" placeholder='Zentry' {...field}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,7 +72,7 @@ const page = () => {
         />
         <Button className='bg-dark hover:bg-[#292929] text-light w-full' type="submit">Sign Up</Button>
         <Link className='hover:underline text-end text-xs' href={'/auth/sign-up'}>
-        <p className='mt-2'>Don't have an account?</p>
+        <p className='mt-2'>Don&apos;t have an account?</p>
         </Link>
       </form>
     </Form>
@@ -72,4 +80,4 @@ const page = () => {
   )
 }
 
-export default page
+export default LoginPage

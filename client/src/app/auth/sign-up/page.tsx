@@ -19,7 +19,11 @@ import { Input } from "@/components/ui/input"
 import { registerSchema } from '@/schemas/schema'
 import Link from 'next/link'
 
-const page = () => {
+import { useRegisterUserMutation } from '@/store/api'
+
+const RegisterPage = () => {
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -29,8 +33,13 @@ const page = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values)
+  async function onSubmit (values: z.infer<typeof registerSchema>) {
+    try {
+      await registerUser(values).unwrap();
+      form.reset()
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -68,7 +77,7 @@ const page = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input className="bg-dark" type="password" placeholder='*********' {...field}/>
               </FormControl>
@@ -76,8 +85,8 @@ const page = () => {
             </FormItem>
           )}
         />
-        <Button className='bg-dark hover:bg-[#292929] text-light w-full' type="submit">Sign Up</Button>
-        <Link className='hover:underline text-end text-xs' href={'/auth/sign-in'}>
+        <Button disabled={isLoading} className='bg-dark hover:bg-[#292929] text-light w-full' type="submit">{isLoading ? 'Loading' : 'Sign Up'}</Button>
+        <Link className='text-end text-xs hover:underline' href={'/auth/sign-in'}>
         <p className='mt-2'>Already have an account?</p>
         </Link>
       </form>
@@ -86,4 +95,4 @@ const page = () => {
   )
 }
 
-export default page
+export default RegisterPage

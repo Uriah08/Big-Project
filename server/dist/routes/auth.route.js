@@ -13,11 +13,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const client_1 = require("@prisma/client");
 const authRouter = express_1.default.Router();
-(() => __awaiter(void 0, void 0, void 0, function* () {
+const prisma = new client_1.PrismaClient();
+authRouter.use('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { ExpressAuth } = yield import('@auth/express');
-    authRouter.use("/auth/*", ExpressAuth({
-        providers: []
-    }));
-}))();
+    const { default: Credentials } = yield import('@auth/express/providers/credentials');
+    ExpressAuth({
+        providers: [
+            Credentials({
+                credentials: {
+                    email: {},
+                    password: {}
+                },
+                authorize: (credentials) => __awaiter(void 0, void 0, void 0, function* () {
+                    const { email, password } = credentials;
+                    return null;
+                })
+            })
+        ]
+    })(req, res, next);
+}));
 exports.default = authRouter;

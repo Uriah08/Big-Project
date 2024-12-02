@@ -11,6 +11,6 @@
     "indent":"off",
     "spaced-comment":"off",
     "eslint-plugin-vue/static-class-names-order":"off",
-    "no-mixed-spaces-and-tabs":"off",
+    "no-mixed-spaces-and-tabs":"off"
   }
 }
