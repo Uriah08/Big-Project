@@ -49,6 +49,9 @@ const LoginPage = () => {
       console.error(error)
     }
   }
+
+  const token = localStorage.getItem("token");
+  console.log(token);
   return (
     <>
       <Form {...form}>

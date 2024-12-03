@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 
 // ROUTES IMPORTS //
 import authRoutes from './routes/auth.routes'
@@ -14,6 +15,7 @@ dotenv.config()
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use(helmet())
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
 app.use(morgan("common"))

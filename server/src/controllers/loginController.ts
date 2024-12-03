@@ -50,6 +50,14 @@ export const loginUser = async (
             { expiresIn: "5h"}
         )
 
+        res.cookie('token',token,{
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 60 * 60 * 5,
+            path: '/',
+            sameSite: 'strict',
+        })
+
         res.status(200).json({ message: "Login Successfully" , success: true, token, user: userWithoutPassword })
         
     } catch (error) {
