@@ -6,7 +6,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 // ROUTES IMPORTS //
-import authRoutes from './routes/auth.route'
+import authRoutes from './routes/auth.routes'
 import registerRoutes from './routes/register.routes'
 
 // CONFIGURATIONS //

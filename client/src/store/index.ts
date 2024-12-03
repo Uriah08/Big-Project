@@ -1,14 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+    user: null,
+    token: null,
+};
 
-export const globalSlice = createSlice({
-    name: "global",
+export const authSlice = createSlice({
+    name: "auth",
     initialState,
     reducers: {
+        setUser (state, action) {
+            state.user = action.payload
+            state.token = action.payload
+        },
+        logout (state) {
+            state.user = null;
+            state.token = null;
+        },
     }
 })
 
 // eslint-disable-next-line no-empty-pattern
-export const {} = globalSlice.actions
-export default globalSlice.reducer
+export const { setUser, logout } = authSlice.actions
+export default authSlice.reducer

@@ -14,12 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerUser = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+const prisma_1 = require("../prisma");
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password } = req.body;
     try {
-        const existingUser = yield prisma.user.findUnique({
+        const existingUser = yield prisma_1.prisma.user.findUnique({
             where: { email }
         });
         if (existingUser) {
@@ -30,7 +29,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return;
         }
         const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
-        const newUser = yield prisma.user.create({
+        const newUser = yield prisma_1.prisma.user.create({
             data: {
                 name: username,
                 email,

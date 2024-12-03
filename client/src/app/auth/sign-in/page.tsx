@@ -20,8 +20,11 @@ import { loginSchema } from '@/schemas/schema'
 import Link from 'next/link'
 
 import { useLoginUserMutation } from '@/store/api'
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/store'
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginUser, { isLoading }] = useLoginUserMutation()
 
@@ -35,7 +38,13 @@ const LoginPage = () => {
 
   async function onSubmit (values: z.infer<typeof loginSchema>) {
     try {
-      await loginUser(values)
+      const response = await loginUser(values)
+      if (response.data.success) {
+        dispatch(setUser({
+          user: response.data.user, token: response.data.token
+        }))
+      }
+      form.reset()
     } catch (error) {
       console.error(error)
     }
@@ -49,9 +58,9 @@ const LoginPage = () => {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input className="bg-dark" type="email" placeholder='Zentry' {...field}/>
+                <Input className="bg-dark" type="email" placeholder='zentry@email.com' {...field}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +79,7 @@ const LoginPage = () => {
             </FormItem>
           )}
         />
-        <Button className='bg-dark hover:bg-[#292929] text-light w-full' type="submit">Sign Up</Button>
+        <Button disabled={isLoading} className='bg-dark hover:bg-[#292929] text-light w-full' type="submit">{isLoading ? 'Loading...' : 'Sign In'}</Button>
         <Link className='hover:underline text-end text-xs' href={'/auth/sign-up'}>
         <p className='mt-2'>Don&apos;t have an account?</p>
         </Link>
