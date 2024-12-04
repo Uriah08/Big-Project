@@ -4,7 +4,9 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-    '/',
+    '/dashboard',
+    '/settings',
+    '/about'
 ]
 
 export const protectedRoutes = [

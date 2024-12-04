@@ -23,10 +23,14 @@ import { useLoginUserMutation } from '@/store/api'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store'
 
+import { useRouter } from 'next/navigation'
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginUser, { isLoading }] = useLoginUserMutation()
+
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -41,9 +45,11 @@ const LoginPage = () => {
       const response = await loginUser(values)
       if (response.data.success) {
         dispatch(setUser({
-          user: response.data.user, token: response.data.token
+          user: response.data.user
         }))
       }
+
+      router.push('/dashboard')
       form.reset()
     } catch (error) {
       console.error(error)

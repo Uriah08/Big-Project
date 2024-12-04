@@ -24,23 +24,14 @@ export const api = createApi({
                 body: userData,
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                credentials: 'include'
             })
         }),
-        protectedRoute: build.query({
-            query: () => ({
-                url: "/auth/protected",
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            })
-        })
     })
 })
 
 export const {
     useRegisterUserMutation,
-    useLoginUserMutation,
-    useProtectedRouteQuery
+    useLoginUserMutation
 } = api

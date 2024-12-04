@@ -4,8 +4,7 @@ import bcryptjs from 'bcryptjs'
 import jwt from "jsonwebtoken";
 
 import { prisma } from "../prisma";
-
-const JWT_SECRET = process.env.JWT_SECRET || "sample"
+import generateTokenAndSetCookie from "../utils/generateToken";
 
 export const loginUser = async (
     req: Request,
@@ -44,19 +43,7 @@ export const loginUser = async (
             return
         }
 
-        const token = jwt.sign(
-            { id: user.id, email: user.email},
-            JWT_SECRET,
-            { expiresIn: "5h"}
-        )
-
-        res.cookie('token',token,{
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 60 * 60 * 5,
-            path: '/',
-            sameSite: 'strict',
-        })
+        const token = generateTokenAndSetCookie(user.id, res)
 
         res.status(200).json({ message: "Login Successfully" , success: true, token, user: userWithoutPassword })
         
@@ -66,24 +53,5 @@ export const loginUser = async (
             success: false,
             error
         })
-    }
-}
-
-export const protectedRoute = async (
-    req: Request,
-    res: Response,
-) => {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if(!token) {
-        res.status(401).json({ message: 'No token provided', success: false });
-        return;
-    }
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET)
-        res.status(200).json({ message: "Access granted", data: decoded, success: true });
-    } catch (error) {
-        res.status(401).json({ error: "Invalid or expired token", success: false });
     }
 }
